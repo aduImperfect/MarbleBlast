@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://hiqoorm35hoa"]
 
 [ext_resource type="Script" uid="uid://bv0jqcjv8xm0m" path="res://TSCN/main.gd" id="1_fmnqs"]
+[ext_resource type="Script" uid="uid://mymcs0u14wi" path="res://TSCN/pivot_point.gd" id="2_fkqqc"]
 [ext_resource type="Texture2D" uid="uid://babau2golwhs8" path="res://Textures/Sphere.png" id="2_gtjxt"]
 [ext_resource type="Script" uid="uid://4kaw0ylbo4bf" path="res://TSCN/main_cam.gd" id="2_p3t1g"]
 [ext_resource type="Script" uid="uid://b2tw2e23ogp4e" path="res://TSCN/ball.gd" id="3_p3t1g"]
@@ -26,8 +27,12 @@ size = Vector3(200, 1, 200)
 script = ExtResource("1_fmnqs")
 
 [node name="MainCam" type="Camera3D" parent="." unique_id=1038089774 node_paths=PackedStringArray("playerNode")]
-transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 5, 10)
+transform = Transform3D(1, 0, 0, 0, 0.9659259, 0.25881907, 0, -0.25881907, 0.9659258, 0, 5, 10)
 script = ExtResource("2_p3t1g")
+playerNode = NodePath("../PivotPoint")
+
+[node name="PivotPoint" type="Node3D" parent="." unique_id=991218478 node_paths=PackedStringArray("playerNode")]
+script = ExtResource("2_fkqqc")
 playerNode = NodePath("../BallRigidBody")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=263895350]

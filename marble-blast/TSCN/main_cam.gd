@@ -13,6 +13,17 @@ extends Node3D
 @export var camStartingPosY : float = 5.0
 @export var camStartingPosZ : float = 10.0
 
+@export var deltaVal : float = 0.0
+@export var rotSpeed : float = 20.0
+
+@export var ifRightPressed : bool = false
+@export var ifMouseMovedHoriz : bool = false
+@export var ifMouseMovedVert : bool = false
+@export var horizDirMouseMoved : float = 0.0
+@export var vertDirMouseMoved : float = 0.0
+
+@export var mouseMotionDelta : float = 0.1
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	currentCamZoomLevel = 0
@@ -20,15 +31,27 @@ func _ready() -> void:
 	position.x = camStartingPosX
 	position.y = camStartingPosY
 	position.z = camStartingPosZ
+	deltaVal = 0.0
+	rotSpeed = 20.0
+	ifRightPressed = false
+	ifMouseMovedHoriz = false
+	ifMouseMovedVert = false
+	horizDirMouseMoved = 0.0
+	vertDirMouseMoved = 0.0
+	mouseMotionDelta = 0.1
 	_reset_finacam_pos()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
+	deltaVal = _delta
 	_set_finacam_pos_relative(playerNode.position)
-
 	position.x = finalCamPosX[currentCamZoomLevel]
 	position.y = finalCamPosY[currentCamZoomLevel]
 	position.z = finalCamPosZ[currentCamZoomLevel]
+
+	if (ifRightPressed == true) && ((ifMouseMovedHoriz == true) || (ifMouseMovedVert == true)):
+		_rotate_around_pos(_delta, horizDirMouseMoved, vertDirMouseMoved, playerNode.position)
+
 
 func _reset_finacam_pos() -> void:
 	for k in camTotalZoomLevels:
@@ -53,18 +76,26 @@ func _input(_event: InputEvent) -> void:
 			if currentCamZoomLevel != 4:
 				currentCamZoomLevel += 1
 
-	var ifRightPressed : bool = false
-	var ifMouseMoved : bool = false
-	var horizDirMouseMoved : float = 0.0
-
 	if _event is InputEventMouseButton and _event.button_index == MOUSE_BUTTON_RIGHT:
 		if _event.is_pressed():
 			ifRightPressed = true
+		else:
+			ifRightPressed = false
 
 	if _event is InputEventMouseMotion:
-		if _event.relative.x != 0:
-			ifMouseMoved = true
+		if abs(_event.relative.x - mouseMotionDelta) > 0:
+			ifMouseMovedHoriz = true
 			horizDirMouseMoved = _event.relative.x
+		else:
+			ifMouseMovedHoriz = false
+			horizDirMouseMoved = 0.0
 
-	if (ifRightPressed == true) && (ifMouseMoved == true):
-		pass
+		if abs(_event.relative.y - mouseMotionDelta) > 0:
+			ifMouseMovedVert = true
+			vertDirMouseMoved = _event.relative.y
+		else:
+			ifMouseMovedVert = false
+			vertDirMouseMoved = 0.0
+
+func _rotate_around_pos(_delta : float, _dirToPanX : float, _dirToPanY : float, _pos : Vector3) -> void:
+	rotation = _pos.rotated(Vector3(_dirToPanY, _dirToPanX, 0.0), rotSpeed * _delta)
