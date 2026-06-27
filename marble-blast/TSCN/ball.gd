@@ -1,4 +1,4 @@
-extends CSGSphere3D
+extends RigidBody3D
 
 
 
@@ -16,10 +16,15 @@ func _physics_process(_delta: float) -> void:
 	pass
 
 func _input(_event: InputEvent) -> void:
-	if _event is InputEventMouseButton and _event.button_index == MOUSE_BUTTON_LEFT:
+	if _event is InputEventKey and _event.keycode == KEY_UP:
 		if _event.is_pressed():
-			pass
+			#print("KEY UP BEING PRESSED!")
+			#apply_force(Vector3(0.0,0.0,-1.0))
+			apply_impulse(Vector3(0.0,0.0,-1.0))
 
-	if _event is InputEventAction and _event.button_index == KEY_UP:
+	if _event is InputEventKey and _event.keycode == KEY_DOWN:
 		if _event.is_pressed():
+			#print("KEY DOWN BEING PRESSED!")
+			#apply_force(Vector3(0.0,0.0,-1.0))
+			apply_impulse(Vector3(0.0,0.0,1.0))
 			pass

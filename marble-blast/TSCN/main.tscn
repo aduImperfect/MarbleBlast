@@ -27,23 +27,23 @@ script = ExtResource("1_fmnqs")
 [node name="MainCam" type="Camera3D" parent="." unique_id=1038089774]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5142076, 10.254407)
 
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=263895350]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.426405, 3.4235544, -5.423888)
+
 [node name="BallRigidBody" type="RigidBody3D" parent="." unique_id=1738251023]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 physics_material_override = SubResource("PhysicsMaterial_gtjxt")
+script = ExtResource("3_p3t1g")
 
 [node name="Ball" type="CSGSphere3D" parent="BallRigidBody" unique_id=2062180589]
 material = SubResource("StandardMaterial3D_1flj6")
-script = ExtResource("3_p3t1g")
 
 [node name="BallCollision" type="CollisionShape3D" parent="BallRigidBody" unique_id=1933556903]
 shape = SubResource("SphereShape3D_gtjxt")
 debug_color = Color(0.76862746, 0.44705883, 0, 0.6627451)
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=263895350]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.426405, 3.4235544, -5.423888)
-
 [node name="GroundRigidBody" type="RigidBody3D" parent="." unique_id=2122577132]
-axis_lock_linear_y = true
+freeze = true
 
 [node name="GroundMesh" type="MeshInstance3D" parent="GroundRigidBody" unique_id=1634207797]
 transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, -1, 0)
