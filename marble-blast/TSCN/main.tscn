@@ -1,3 +1,50 @@
 [gd_scene format=3 uid="uid://hiqoorm35hoa"]
 
+[ext_resource type="Script" uid="uid://bv0jqcjv8xm0m" path="res://TSCN/main.gd" id="1_fmnqs"]
+[ext_resource type="Texture2D" uid="uid://babau2golwhs8" path="res://Textures/Sphere.png" id="2_gtjxt"]
+[ext_resource type="Script" uid="uid://b2tw2e23ogp4e" path="res://TSCN/ball.gd" id="3_p3t1g"]
+[ext_resource type="Texture2D" uid="uid://d0eh1rlbdak1j" path="res://Textures/Ground.png" id="4_fkqqc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1flj6"]
+albedo_texture = ExtResource("2_gtjxt")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_gtjxt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aon6n"]
+albedo_texture = ExtResource("4_fkqqc")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_r8otd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gtjxt"]
+size = Vector3(200, 1, 200)
+
 [node name="Main" type="Node3D" unique_id=179307962]
+script = ExtResource("1_fmnqs")
+
+[node name="MainCam" type="Camera3D" parent="." unique_id=1038089774]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.87889385, 3.640521)
+
+[node name="BallRigidBody" type="RigidBody3D" parent="." unique_id=1738251023]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6081517, 0)
+
+[node name="Ball" type="CSGSphere3D" parent="BallRigidBody" unique_id=2062180589]
+material = SubResource("StandardMaterial3D_1flj6")
+script = ExtResource("3_p3t1g")
+
+[node name="CollisionBounds" type="CollisionShape3D" parent="BallRigidBody" unique_id=1933556903]
+shape = SubResource("SphereShape3D_gtjxt")
+debug_color = Color(0.76862746, 0.44705883, 0, 0.6627451)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=263895350]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.426405, 3.4235544, -5.423888)
+
+[node name="GroundArea" type="Area3D" parent="." unique_id=91174905]
+
+[node name="GroundMesh" type="MeshInstance3D" parent="GroundArea" unique_id=1634207797]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, -1, 0)
+material_override = SubResource("StandardMaterial3D_aon6n")
+mesh = SubResource("PlaneMesh_r8otd")
+
+[node name="GroundCollision" type="CollisionShape3D" parent="GroundArea" unique_id=547229898]
+shape = SubResource("BoxShape3D_gtjxt")
+debug_color = Color(0.60053235, 0.36953807, 1, 0.41960785)
